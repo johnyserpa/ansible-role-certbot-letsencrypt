@@ -1,2 +1,4 @@
 ---
-# defaults file for certbot-letsencrypt
+letsencrypt_ssl_dir: "/etc/letsencrypt/live/"
+
+

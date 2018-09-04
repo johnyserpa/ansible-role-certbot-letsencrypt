@@ -12,19 +12,19 @@ Requirements
 Role Variables
 --------------
 
-Email to be used while generating certificates.
+Email to be used while generating certificates. (default)
 
 ```
 service_admin_email: "me@example.com"
 ```
 
-Where to store letsencrypt certificates.
+Where to store letsencrypt certificates. (no defaults, must be set)
 
 ```
 letsencrypt_ssl_dir: "/etc/letsencrypt/live/"
 ```
 
-Array of domains to generate certificates.
+Array of domains to generate certificates. (no defaults, must be set)
 
 ```
 ssl_domains:
