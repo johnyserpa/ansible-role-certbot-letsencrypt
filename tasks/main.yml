@@ -1,0 +1,29 @@
+---
+# tasks file for certbot-letsencrypt
+- name: Install certbot
+  yum:
+    name: certbot-nginx
+    state: present
+    update_cache: yes
+
+- name: Obtain certificate
+  command: certbot --nginx -n -m {{ service_admin_email }} --agree-tos --webroot-path=/srv/{{ item }} -d "{{ item }}"
+  with_items: "{{ ssl_domains }}"
+
+- name: Generate dhparams file
+  command: openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+- name: Ensure cron to renew certificate letsencrypt exists
+  cron:
+    name: Renew https certificate
+    minute: "15"
+    hour: "3"
+    job: "/usr/bin/certbot renew >> /var/log/le-renew.log"
+
+- name: Ensure cron to restart ngin exists
+  cron:
+    name: Reload nginx
+    minute: "35"
+    hour: "2"
+    weekday: "1"
+    job: "systemctl reload nginx"
